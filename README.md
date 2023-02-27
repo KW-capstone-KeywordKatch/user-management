@@ -1,2 +1,1 @@
-# user-management
-user management component
+# 회원 관리 컴포넌트
