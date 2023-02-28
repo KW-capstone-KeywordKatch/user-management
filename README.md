@@ -1,6 +1,6 @@
 # 회원 관리 컴포넌트
 
-[KeywordKatch](#)의 회원을 관리하는 컴포넌트
+[KeywordKatch](https://github.com/KW-capstone-KeywordKatch/index#keywordkatch)의 회원을 관리하는 컴포넌트
 
 ## 기능
 * 회원가입, 로그인, 탈퇴
