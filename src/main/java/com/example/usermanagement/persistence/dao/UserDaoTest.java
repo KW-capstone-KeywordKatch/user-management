@@ -31,6 +31,11 @@ public class UserDaoTest implements UserDao{
     }
 
     @Override
+    public Optional<User> findByEmail(String email) {
+        return store.values().stream().filter(user -> user.getEmail().equals(email)).findAny();
+    }
+
+    @Override
     public List<User> findAll() {
         return new ArrayList<>(store.values());
     }

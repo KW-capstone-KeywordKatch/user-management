@@ -1,6 +1,5 @@
 package com.example.usermanagement.signup;
 
-import com.example.usermanagement.UserConfig;
 import com.example.usermanagement.persistence.dao.UserDao;
 import com.example.usermanagement.persistence.dao.UserDaoTest;
 import com.example.usermanagement.persistence.entity.User;
@@ -11,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.Optional;
 
@@ -49,5 +50,8 @@ public class SignupTest {
         }
     }
 
-
+    @Configuration
+    @ComponentScan
+    public class UserConfig {
+    }
 }

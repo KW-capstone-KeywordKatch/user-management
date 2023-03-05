@@ -20,34 +20,24 @@ public class UserController {
      * 중복 검사 되어있다고 가정 null만 검사하는 상태
      */
     @PostMapping("/user/signup")
-    public Response createUser(@RequestBody UserDto userDto) {
+    public Response signUp(@RequestBody UserDto userDto) {
 
-        //
+        Response response = userService.signupUser(userDto);
+        return response;
+    }
 
+    @PostMapping("/auth/signin")
+    public Response signIn(@RequestBody UserDto userDto) throws RuntimeException {
+        Response response = userService.signinUser(userDto);
 
-        User user = new User();
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        user.setNickname(userDto.getNickname());
-
-        userService.signupUser(user);
-
-        //signup success
-        UserSignupPayload payload = new UserSignupPayload(user.getUserId());
-        return new Response(true, 1000, payload);
+        return response;
     }
 
     @GetMapping("/user/duplication/{nickname}")
-    public String nicknameCheck(@PathVariable("nickname") String nickname){
-        Long checkId = userService.checkDuplicateNickname(nickname);
-        if (checkId == 0L) {
-            System.out.println("check OK");
-            return "checkOK";
-        }
-        else {
-            System.out.println("Duplicate");
-            return "Duplicate";
-        }
+    public Response nicknameCheck(@PathVariable("nickname") String nickname){
+        Response response = userService.checkDuplicateNickname(nickname);
+
+        return response;
     }
 
     /**

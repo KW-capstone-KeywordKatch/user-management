@@ -1,12 +1,13 @@
 package com.example.usermanagement.duplicate;
 
-import com.example.usermanagement.UserConfig;
 import com.example.usermanagement.persistence.entity.User;
 import com.example.usermanagement.service.UserService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 public class DuplicateTest {
 
@@ -30,5 +31,10 @@ public class DuplicateTest {
 
         Long notDuplicateNickname = userService.checkDuplicateNickname("notDuplicateNickname");
         Assertions.assertThat(notDuplicateNickname).isEqualTo(0L);
+    }
+
+    @Configuration
+    @ComponentScan
+    public class UserConfig {
     }
 }
