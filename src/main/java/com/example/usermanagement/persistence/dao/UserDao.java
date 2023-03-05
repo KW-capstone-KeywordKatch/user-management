@@ -20,4 +20,5 @@ public interface UserDao {
      * @return success: removed userId / fail: 0
      */
     Long remove(User user);
+
 }

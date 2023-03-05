@@ -1,22 +1,22 @@
 package com.example.usermanagement.service;
 
-import com.example.usermanagement.dto.request.UserDrop;
+import com.example.usermanagement.dto.request.UserDto;
 import com.example.usermanagement.persistence.dao.UserDao;
 import com.example.usermanagement.persistence.entity.User;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserService {
 
     private final UserDao userDao;
 
-    public Long joinUser(User user) {
+    public Long signupUser(User user) {
         User savedUser = userDao.save(user);
-        return savedUser.getId();
+        return savedUser.getUserId();
     }
 
     /**
@@ -26,15 +26,15 @@ public class UserService {
     public Long checkDuplicateNickname(String nickname){
         for (User user : userDao.findAll()) {
             if (user.getNickname().equals(nickname)) {
-                return user.getId();
+                return user.getUserId();
             }
         }
         return 0L;
     }
 
-    public Long removeUser(UserDrop userDrop) {
+    public Long removeUser(UserDto userDto) {
         for (User user : userDao.findAll()) {
-            if (user.getEmail().equals(userDrop.getEmail())) {
+            if (user.getEmail().equals(userDto.getEmail())) {
                 return userDao.remove(user);
             }
         }

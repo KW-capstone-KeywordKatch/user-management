@@ -18,12 +18,11 @@ public class DuplicateTest {
         UserService userService = ac.getBean(UserService.class);
 
         User user1 = new User();
-        user1.setAge(20);
         user1.setNickname("duplicateTest");
         user1.setEmail("test@naver.com");
         user1.setPassword("12345");
 
-        userService.joinUser(user1);
+        userService.signupUser(user1);
 
         Long duplicateNickname = userService.checkDuplicateNickname("duplicateTest");
 

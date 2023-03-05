@@ -15,8 +15,8 @@ public class UserDaoTest implements UserDao{
 
     @Override
     public User save(User user) {
-        user.setId(++sequenceId);
-        store.put(user.getId(), user);
+        user.setUserId(++sequenceId);
+        store.put(user.getUserId(), user);
         return user;
     }
 
@@ -37,9 +37,9 @@ public class UserDaoTest implements UserDao{
 
     @Override
     public Long remove(User user) {
-        if (store.containsKey(user.getId())) {
-            store.remove(user.getId());
-            return user.getId();
+        if (store.containsKey(user.getUserId())) {
+            store.remove(user.getUserId());
+            return user.getUserId();
         }
         return 0L;
     }

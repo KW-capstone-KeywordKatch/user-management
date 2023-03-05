@@ -26,10 +26,9 @@ public class SignupTest {
         User user = new User();
         user.setEmail("test@naver.com");
         user.setNickname("user");
-        user.setAge(20);
         user.setPassword("abc123!");
 
-        userService.joinUser(user);
+        userService.signupUser(user);
 
         User findUser = userDao.findByNickname("user").get();
         System.out.println("findUser = " + findUser);

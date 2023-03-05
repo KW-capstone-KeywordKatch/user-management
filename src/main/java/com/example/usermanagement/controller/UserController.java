@@ -1,11 +1,11 @@
 package com.example.usermanagement.controller;
 
-import com.example.usermanagement.dto.request.UserDrop;
-import com.example.usermanagement.dto.request.UserSignup;
+import com.example.usermanagement.dto.request.UserDto;
+import com.example.usermanagement.dto.response.Response;
+import com.example.usermanagement.dto.response.UserSignupPayload;
 import com.example.usermanagement.persistence.entity.User;
 import com.example.usermanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,24 +14,27 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/user/signup")
-    public String test(){
-        System.out.println("UserController.test");
-        return "/signupForm";
-    }
-
+    /**
+     * @param userDto
+     * @return Response
+     * 중복 검사 되어있다고 가정 null만 검사하는 상태
+     */
     @PostMapping("/user/signup")
-    public String createUser(UserSignup userSignup) {
+    public Response createUser(@RequestBody UserDto userDto) {
+
+        //
+
+
         User user = new User();
-        user.setEmail(userSignup.getEmail());
-        user.setPassword(userSignup.getPassword());
-        user.setAge(userSignup.getAge());
-        user.setNickname(userSignup.getNickname());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
+        user.setNickname(userDto.getNickname());
 
-        userService.joinUser(user);
-        System.out.println("UserController.createUser");
+        userService.signupUser(user);
 
-        return "redirect:/";
+        //signup success
+        UserSignupPayload payload = new UserSignupPayload(user.getUserId());
+        return new Response(true, 1000, payload);
     }
 
     @GetMapping("/user/duplication/{nickname}")
@@ -53,8 +56,8 @@ public class UserController {
      * 해당 email의 password가 일치하는 지는 고려안한 상태
      */
     @DeleteMapping("/user/drop")
-    public String dropUser(UserDrop userDrop) {
-        Long dropedId = userService.removeUser(userDrop);
+    public String dropUser(@RequestBody UserDto userDto) {
+        Long dropedId = userService.removeUser(userDto);
         if (dropedId != 0L) {
             System.out.println("drop success");
             return "dropOK";
