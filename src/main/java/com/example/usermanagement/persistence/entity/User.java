@@ -20,6 +20,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
+    @Setter(AccessLevel.NONE)
     private Long userId;
 
     @Column(nullable = false, unique = true)
@@ -37,14 +38,14 @@ public class User {
     @Column(name = "interest")
     @Enumerated(EnumType.STRING)
     @Builder.Default
-    private Set<Interest> interests = new HashSet<>();
+    private List<Interest> interests = new ArrayList<>();
 
     /* 회원이 가진 권한 목록 (Spring Security) */
+    // TODO String -> Role
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role")
     @Column(name = "role")
-    @Enumerated(EnumType.STRING)
     @Builder.Default
-    private List<Role> roles = new ArrayList<>();
+    private List<String> roles = new ArrayList<>();
 
 }

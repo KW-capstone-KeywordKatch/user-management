@@ -1,5 +1,7 @@
 package com.example.usermanagement.persistence.value;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * 사용자의 관심 분야
  */
