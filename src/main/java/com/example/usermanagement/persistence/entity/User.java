@@ -13,7 +13,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "user")
+@Table(name = "_user")
 public class User {
 
     // 회원 식별 번호
@@ -34,7 +34,7 @@ public class User {
 
     /* 사용자의 관심분야 목록 */
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_interest")
+    @CollectionTable(name = "user_interest", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "interest")
     @Enumerated(EnumType.STRING)
     @Builder.Default
