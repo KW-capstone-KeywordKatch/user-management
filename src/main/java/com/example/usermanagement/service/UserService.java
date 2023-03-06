@@ -1,7 +1,6 @@
 package com.example.usermanagement.service;
 
 import com.example.usermanagement.dto.request.UserDto;
-import com.example.usermanagement.dto.response.Response;
 import com.example.usermanagement.dto.response.UserSigninPayload;
 import com.example.usermanagement.dto.response.UserSignupPayload;
 import com.example.usermanagement.persistence.dao.UserDao;
@@ -25,7 +24,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public Response signupUser(UserDto userDto) {
+    public UserSignupPayload signupUser(UserDto userDto) {
 
         User user;
         String role = "normal"; //일단 그냥 노말 가입만
@@ -45,89 +44,54 @@ public class UserService {
                     .build();
         }
 
-        Response response = new Response();
 
         Optional<User> optUser = userDao.findByEmail(userDto.getEmail());
         if (!optUser.isEmpty()) {
-            setSignUpFailResult(response);
-            return response;
+            return new UserSignupPayload(0L);
         }
 
         User savedUser = userDao.save(user);
-
-        if(!savedUser.getNickname().isEmpty()) {
-            setSuccessResult(response, new UserSignupPayload(user.getUserId()));
-        } else {
-            setSignUpFailResult(response);
-        }
-        return response;
+        return new UserSignupPayload(savedUser.getUserId());
     }
 
-    public Response signinUser(UserDto userDto) {
+    public UserSigninPayload signinUser(UserDto userDto) {
         Optional<User> optUser = userDao.findByEmail(userDto.getEmail());
-        Response response = new Response();
+
         if (optUser.isEmpty()) {
-            setSignInFailResult(response, 2002);
-            return response;
+            return new UserSigninPayload(0L, "not exist email");
         }
         User user = optUser.get();
 
         if (!passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
-            setSignInFailResult(response, 2003);
-            return response;
+            return new UserSigninPayload(-1L, "not matched password");
         }
-        //패스워드 일치
 
+        //패스워드 일치
         UserSigninPayload payload = UserSigninPayload.builder()
                 .userId(user.getUserId())
                 .token(jwtTokenProvider.createToken(user.getUserId(), user.getRoles()))
                 .build();
-        setSuccessResult(response, payload);
-        return response;
+        return payload;
     }
 
-    private static void setSuccessResult(Response response, Object payload) {
-        response.setSuccess(true);
-        response.setCode(1000);
-        response.setPayload(payload);
-    }
-    private static void setSignUpFailResult(Response response) {
-        response.setSuccess(false);
-        response.setCode(2001);
-        response.setPayload(null);
-    }
-    private static void setSignInFailResult(Response response, int code) {
-        response.setSuccess(false);
-        response.setCode(code);
-        response.setPayload(null);
-    }
-
-
-
-    public Response checkDuplicateNickname(String nickname){
-        Response response = new Response();
-
+    public UserSignupPayload checkDuplicateNickname(String nickname){
         Optional<User> optUser = userDao.findByNickname(nickname);
         if (optUser.isEmpty()) {
-            response.setCode(1001);
-            response.setSuccess(true);
-            response.setPayload(new UserSignupPayload(0L));
-            return response;
+            return new UserSignupPayload(0L);
         } else {
-            response.setCode(1002);
-            response.setSuccess(true);
-            response.setPayload(new UserSignupPayload(optUser.get().getUserId()));
-            return response;
+            return new UserSignupPayload(optUser.get().getUserId());
         }
     }
 
-    public Long removeUser(UserDto userDto) {
-        for (User user : userDao.findAll()) {
-            if (user.getEmail().equals(userDto.getEmail())) {
-                return userDao.remove(user);
-            }
+    public UserSignupPayload removeUser(UserDto userDto) {
+
+        Optional<User> optUser = userDao.findByEmail(userDto.getEmail());
+        if (optUser.isEmpty()) {
+            return new UserSignupPayload(0L);
         }
 
-        return 0L;
+        Long removedId = userDao.remove(optUser.get());
+
+        return new UserSignupPayload(removedId);
     }
 }

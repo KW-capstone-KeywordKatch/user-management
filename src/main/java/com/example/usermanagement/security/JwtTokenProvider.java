@@ -87,7 +87,7 @@ public class JwtTokenProvider {
      * @return
      */
     public String extractUsername(String token) {
-        Long userId = (Long)Jwts.parserBuilder()
+        Object userId = Jwts.parserBuilder()
                 .setSigningKey(secretKey)
                 .requireAudience(JWT_AUDIENCE)
                 .build()
@@ -95,6 +95,7 @@ public class JwtTokenProvider {
                 .getBody()
                 .get("user_id");
 
+        System.out.println(userId.toString());
         return userId.toString();
     }
 

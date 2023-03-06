@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
+import lombok.ToString;
 
 import static com.example.usermanagement.dto.response.base.BaseResponseStatus.SUCCESS;
 
@@ -25,7 +26,7 @@ public class BaseResponse<T> {
     }
 
     // 요청 실패
-    private BaseResponse(BaseResponseStatus status) {
+    public BaseResponse(BaseResponseStatus status) {
         this.isSuccess = status.isSuccess();
         this.code = status.getCode();
     }

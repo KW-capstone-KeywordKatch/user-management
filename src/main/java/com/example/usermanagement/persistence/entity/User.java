@@ -20,7 +20,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    @Setter(AccessLevel.NONE)
+    //@Setter(AccessLevel.NONE)              @@@@@@@@@@@@@@여기 test때문에 일단 허용함
     private Long userId;
 
     @Column(nullable = false, unique = true)
