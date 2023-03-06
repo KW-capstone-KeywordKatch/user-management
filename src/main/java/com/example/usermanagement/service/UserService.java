@@ -3,7 +3,6 @@ package com.example.usermanagement.service;
 import com.example.usermanagement.dto.request.UserDto;
 import com.example.usermanagement.dto.response.UserSigninPayload;
 import com.example.usermanagement.dto.response.UserSignupPayload;
-import com.example.usermanagement.persistence.dao.UserDao;
 import com.example.usermanagement.persistence.dao.UserRepository;
 import com.example.usermanagement.persistence.entity.User;
 import com.example.usermanagement.persistence.value.Role;
@@ -91,8 +90,8 @@ public class UserService {
             return new UserSignupPayload(0L);
         }
 
-        Long removedId = userRepository.remove(optUser.get());
+        userRepository.delete(optUser.get());
 
-        return new UserSignupPayload(removedId);
+        return new UserSignupPayload(optUser.get().getUserId());
     }
 }
