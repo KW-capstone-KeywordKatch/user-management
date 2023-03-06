@@ -1,19 +1,22 @@
 package com.example.usermanagement.dto.response.base;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
-import lombok.ToString;
+import lombok.Setter;
 
 import static com.example.usermanagement.dto.response.base.BaseResponseStatus.SUCCESS;
 
 @Getter
 @JsonPropertyOrder({"is_success", "code", "payload"})
+@JsonIgnoreProperties({"success"})
 public class BaseResponse<T> {
 
     @JsonProperty("is_success")
     private boolean isSuccess;
+
     private int code;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T payload;
