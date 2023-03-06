@@ -1,7 +1,11 @@
 package com.example.usermanagement.dto.response;
 
+import com.example.usermanagement.persistence.value.Interest;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,4 +18,6 @@ public class UserSigninPayload {
     private Long userId;
 
     private String token;
+
+    private List<Interest> interests = new ArrayList<>();
 }

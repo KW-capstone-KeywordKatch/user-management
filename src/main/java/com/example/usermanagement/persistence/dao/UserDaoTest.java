@@ -7,7 +7,6 @@ import java.util.*;
 
 //일단 메모리로 테스트하기 위해서 구현한 클래스
 //**DB로 구현한 클래스 추가 필요**
-@Repository
 public class UserDaoTest implements UserDao{
 
     private static Map<Long, User> store = new HashMap<>();

@@ -4,6 +4,7 @@ import com.example.usermanagement.dto.request.UserDto;
 import com.example.usermanagement.dto.response.UserSigninPayload;
 import com.example.usermanagement.dto.response.UserSignupPayload;
 import com.example.usermanagement.persistence.dao.UserDao;
+import com.example.usermanagement.persistence.dao.UserRepository;
 import com.example.usermanagement.persistence.entity.User;
 import com.example.usermanagement.persistence.value.Role;
 import com.example.usermanagement.security.JwtTokenProvider;
@@ -20,7 +21,7 @@ import java.util.Optional;
 @Transactional
 public class UserService {
 
-    private final UserDao userDao;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -44,38 +45,38 @@ public class UserService {
                     .build();
         }
 
-
-        Optional<User> optUser = userDao.findByEmail(userDto.getEmail());
+        Optional<User> optUser = userRepository.findByEmail(userDto.getEmail());
         if (!optUser.isEmpty()) {
             return new UserSignupPayload(0L);
         }
 
-        User savedUser = userDao.save(user);
+        User savedUser = userRepository.save(user);
         return new UserSignupPayload(savedUser.getUserId());
     }
 
     public UserSigninPayload signinUser(UserDto userDto) {
-        Optional<User> optUser = userDao.findByEmail(userDto.getEmail());
+        Optional<User> optUser = userRepository.findByEmail(userDto.getEmail());
 
         if (optUser.isEmpty()) {
-            return new UserSigninPayload(0L, "not exist email");
+            return new UserSigninPayload(0L, "not exist email", null);
         }
         User user = optUser.get();
 
         if (!passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
-            return new UserSigninPayload(-1L, "not matched password");
+            return new UserSigninPayload(-1L, "not matched password", null);
         }
 
         //패스워드 일치
         UserSigninPayload payload = UserSigninPayload.builder()
                 .userId(user.getUserId())
                 .token(jwtTokenProvider.createToken(user.getUserId(), user.getRoles()))
+                .interests(user.getInterests())
                 .build();
         return payload;
     }
 
     public UserSignupPayload checkDuplicateNickname(String nickname){
-        Optional<User> optUser = userDao.findByNickname(nickname);
+        Optional<User> optUser = userRepository.findByNickname(nickname);
         if (optUser.isEmpty()) {
             return new UserSignupPayload(0L);
         } else {
@@ -85,12 +86,12 @@ public class UserService {
 
     public UserSignupPayload removeUser(UserDto userDto) {
 
-        Optional<User> optUser = userDao.findByEmail(userDto.getEmail());
+        Optional<User> optUser = userRepository.findByEmail(userDto.getEmail());
         if (optUser.isEmpty()) {
             return new UserSignupPayload(0L);
         }
 
-        Long removedId = userDao.remove(optUser.get());
+        Long removedId = userRepository.remove(optUser.get());
 
         return new UserSignupPayload(removedId);
     }
