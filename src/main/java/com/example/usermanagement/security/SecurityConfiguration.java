@@ -33,10 +33,10 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests()
                 // TODO
-                /* /user/duplication/{nickname} 경로에서 path variable도 인식하나? */
                 .requestMatchers("/auth/signin", "/user/duplication/**", "/user/signup").permitAll()
                 .requestMatchers("**exception**").permitAll()
-                .anyRequest().hasRole("ADMIN")
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .anyRequest().hasRole("USER")
                 .and()
                 .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
                 .and()
