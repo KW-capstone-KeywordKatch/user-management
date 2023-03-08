@@ -90,6 +90,10 @@ public class UserService {
             return new UserSignupPayload(0L);
         }
 
+        if (!passwordEncoder.matches(userDto.getPassword(), optUser.get().getPassword())) {
+            return new UserSignupPayload(-1L);
+        }
+
         userRepository.delete(optUser.get());
 
         return new UserSignupPayload(optUser.get().getUserId());

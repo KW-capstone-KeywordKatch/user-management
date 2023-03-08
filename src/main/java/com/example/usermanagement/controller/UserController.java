@@ -65,8 +65,11 @@ public class UserController {
     @DeleteMapping("/user/drop")
     public BaseResponse dropUser(@RequestBody UserDto userDto) {
         UserSignupPayload payload = userService.removeUser(userDto);
-        if (payload.getUserId() != 0L) {
+        if (payload.getUserId() == 0L) {
             return new BaseResponse(BaseResponseStatus.FAIL_SIGNIN_NOT_EXIST);
+        }
+        else if (payload.getUserId() == -1L) {
+            return new BaseResponse(BaseResponseStatus.FAIL_SIGNIN_NOT_MATCH_PW);
         }
         else {
             return new BaseResponse(payload);
