@@ -13,7 +13,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "_user")
+@Table(name = "user_info")
 public class User {
 
     // 회원 식별 번호
@@ -46,6 +46,6 @@ public class User {
     @CollectionTable(name = "user_role")
     @Column(name = "role")
     @Builder.Default
-    private List<String> roles = new ArrayList<>();
+    private List<Role> roles = new ArrayList<>();
 
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,14 +33,14 @@ public class UserService {
             user = User.builder()
                     .email(userDto.getEmail())
                     .nickname(userDto.getNickname())
-                    .roles(Collections.singletonList(Role.ADMIN.toString()))
+                    .roles(Collections.singletonList(Role.NORMAL))
                     .password(passwordEncoder.encode(userDto.getPassword()))
                     .build();
         } else {
             user = User.builder()
                     .email(userDto.getEmail())
                     .nickname(userDto.getNickname())
-                    .roles(Collections.singletonList(Role.NORMAL.toString()))
+                    .roles(Collections.singletonList(Role.NORMAL))
                     .password(passwordEncoder.encode(userDto.getPassword()))
                     .build();
         }
@@ -68,7 +69,9 @@ public class UserService {
         //패스워드 일치
         UserSigninPayload payload = UserSigninPayload.builder()
                 .userId(user.getUserId())
-                .token(jwtTokenProvider.createToken(user.getUserId(), user.getRoles()))
+                .token(jwtTokenProvider.createToken(user.getUserId(), user.getRoles()
+                        .stream().map(Role::toString)
+                        .collect(Collectors.toList())))
                 .interests(user.getInterests())
                 .build();
         return payload;
