@@ -2,7 +2,6 @@ package com.example.usermanagement.service;
 
 import com.example.usermanagement.persistence.dao.UserRepository;
 import com.example.usermanagement.persistence.entity.User;
-import com.example.usermanagement.persistence.value.Interest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +21,7 @@ public class UpdateInterestService {
      * @return 업데이트된 관심분야 목록
      */
     @Transactional
-    public List<Interest> updateInterest(Long userId, List<Interest> interests) {
+    public List<String> updateInterest(Long userId, List<String> interests) {
         User user;
         user = userRepository.getReferenceById(userId);
         user.setInterests(interests);

@@ -1,6 +1,5 @@
 package com.example.usermanagement.dto.response;
 
-import com.example.usermanagement.persistence.value.Interest;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
@@ -19,5 +18,5 @@ public class UserSigninPayload {
 
     private String token;
 
-    private List<Interest> interests = new ArrayList<>();
+    private List<String> interests = new ArrayList<>();
 }

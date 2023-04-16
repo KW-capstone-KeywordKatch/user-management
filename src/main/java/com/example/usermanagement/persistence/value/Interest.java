@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * 사용자의 관심 분야
  */
+@Deprecated
 public enum Interest {
 
     EMPTY(-1),
