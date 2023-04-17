@@ -42,6 +42,7 @@ public class User {
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role")
     @Column(name = "role")
+    @Enumerated(EnumType.STRING)
     @Builder.Default
     private List<Role> roles = new ArrayList<>();
 

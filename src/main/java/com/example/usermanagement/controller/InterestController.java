@@ -2,7 +2,7 @@ package com.example.usermanagement.controller;
 
 import com.example.usermanagement.dto.request.UpdateInterestRequest;
 import com.example.usermanagement.dto.response.base.BaseResponse;
-import com.example.usermanagement.service.UpdateInterestService;
+import com.example.usermanagement.service.InterestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,12 +13,12 @@ import java.util.List;
 @RequestMapping("/user/interest")
 public class UpdateInterestController {
 
-    private final UpdateInterestService updateInterestService;
+    private final InterestService interestService;
 
     @PatchMapping("")
     public BaseResponse<List<String>> addInterest(@RequestBody UpdateInterestRequest request) {
         List<String> payload;
-        payload = updateInterestService.updateInterest(request.getUserId(), request.getInterest());
+        payload = interestService.updateInterest(request.getUserId(), request.getInterest());
         return new BaseResponse<>(payload);
     }
 }
