@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UpdateInterestService {
+public class InterestService {
 
     private final UserRepository userRepository;
 
@@ -28,4 +28,15 @@ public class UpdateInterestService {
         return user.getInterests();
     }
 
+
+    /**
+     * 특정 회원의 관심사 조회
+     * @param userId
+     * @return id값이 userId인 회원의 관심 키워드 목록
+     */
+    public List<String> getUsersInterest(Long userId) {
+        User user;
+        user = userRepository.getReferenceById(userId);
+        return user.getInterests();
+    }
 }
