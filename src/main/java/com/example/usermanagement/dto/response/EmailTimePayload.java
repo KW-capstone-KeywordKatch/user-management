@@ -1,24 +1,18 @@
 package com.example.usermanagement.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class UserSigninPayload {
-
-    @JsonProperty("user_id")
-    private Long userId;
-
-    private String token;
-
-    private List<String> interests = new ArrayList<>();
+public class EmailTimePayload {
 
     @JsonProperty("email_time")
     private List<String> emailTime;

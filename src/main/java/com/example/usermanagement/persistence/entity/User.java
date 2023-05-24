@@ -46,4 +46,33 @@ public class User {
     @Builder.Default
     private List<Role> roles = new ArrayList<>();
 
+    /* 0630 0930 1230 1530 1830 중 선택해서 공백으로 연결한 문자열 */
+    @Column(name = "email_time")
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    private String emailTime = null;
+
+    /*
+    * String 형태를 List<String> 형태로 바꾸어 반환
+    * 설정된 시각이 없는 경우 빈 배열 반환 */
+    public List<String> getEmailTime() {
+        if (emailTime == null)
+            return new ArrayList<>();
+        else
+            return Arrays.asList(emailTime.split(" "));
+    }
+
+    /*
+    * List<String> 의 원소들을 공백으로 이어 붙여 String 형태로 DB에 저장
+    * 빈 배열인 경우 null */
+    public void setEmailTime(List<String> desiredTime) {
+        if (desiredTime.size() > 0) {
+            StringBuilder sb = new StringBuilder();
+            for (String time: desiredTime)
+                sb.append(time).append(" ");
+            this.emailTime = sb.toString().trim();
+        } else
+            emailTime = null;
+    }
+
 }

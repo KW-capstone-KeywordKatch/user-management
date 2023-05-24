@@ -45,6 +45,10 @@ public class UserService {
                     .build();
         }
 
+        // EmailTime 설정 기능이 없는 기존 프론트엔드와의 호환을 위해 null 처리
+        if (userDto.getEmailTime() != null)
+            user.setEmailTime(userDto.getEmailTime());
+
         Optional<User> optUser = userRepository.findByEmail(userDto.getEmail());
         if (!optUser.isEmpty()) {
             return new UserSignupPayload(0L);
@@ -58,12 +62,12 @@ public class UserService {
         Optional<User> optUser = userRepository.findByEmail(userDto.getEmail());
 
         if (optUser.isEmpty()) {
-            return new UserSigninPayload(0L, "not exist email", null);
+            return new UserSigninPayload(0L, "not exist email", null, null);
         }
         User user = optUser.get();
 
         if (!passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
-            return new UserSigninPayload(-1L, "not matched password", null);
+            return new UserSigninPayload(-1L, "not matched password", null, null);
         }
 
         //패스워드 일치
@@ -73,6 +77,7 @@ public class UserService {
                         .stream().map(Role::toString)
                         .collect(Collectors.toList())))
                 .interests(user.getInterests())
+                .emailTime(user.getEmailTime())
                 .build();
         return payload;
     }
