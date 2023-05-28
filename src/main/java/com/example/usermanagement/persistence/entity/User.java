@@ -50,7 +50,7 @@ public class User {
     @Column(name = "email_time")
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
-    private String emailTime = null;
+    private String emailTime;
 
     /*
     * String 형태를 List<String> 형태로 바꾸어 반환

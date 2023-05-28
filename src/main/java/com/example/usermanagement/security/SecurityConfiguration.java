@@ -33,7 +33,7 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests()
                 // TODO
-                .requestMatchers("/auth/signin", "/user/duplication/**", "/user/signup").permitAll()
+                .requestMatchers("/auth/signin", "/user/duplication/**", "/user/signup", "/keywords/trend").permitAll()
                 .requestMatchers("**exception**").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().hasRole("USER")
